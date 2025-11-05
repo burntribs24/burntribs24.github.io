@@ -1,0 +1,33 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0f0f0f;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #1a1a1a;
+  padding: 20px 0;
+  font-size: 2rem;
+  font-weight: bold;
+  border-bottom: 2px solid #333;
+}
+
+main {
+  padding: 30px;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+iframe {
+  width: 80%;
+  height: 80vh;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+}
