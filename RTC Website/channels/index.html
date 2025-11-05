@@ -36,11 +36,9 @@
     async function loadChannels() {
       const container = document.getElementById('channelsContainer');
 
-      // Fetch the folder listing (works on most static hosts like GitHub Pages / Apache)
       const res = await fetch(window.location.href);
       const text = await res.text();
 
-      // Parse the returned HTML directory listing to find .html files
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
 
