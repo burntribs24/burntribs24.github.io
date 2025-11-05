@@ -33,30 +33,25 @@
   </main>
 
   <script>
+    const channames = [
+      "TRUSTED.html",
+      "Update.html",
+    ];
+
     async function loadChannels() {
       const container = document.getElementById('channelsContainer');
 
-      const res = await fetch(window.location.href);
-      const text = await res.text();
-
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, 'text/html');
-
-      const links = Array.from(doc.querySelectorAll('a'))
-        .map(a => a.getAttribute('href'))
-        .filter(href => href && href.endsWith('.html') && href !== 'index.html');
-
-      for (const file of links) {
+      for (const file of channames) {
         try {
           const channelName = file.replace('.html', '');
-          const fileRes = await fetch(file);
-          const fileContent = await fileRes.text();
+          const res = await fetch(file);
+          const html = await res.text();
 
           const wrapper = document.createElement('div');
           wrapper.className = 'channel';
           wrapper.innerHTML = `
             <h2>${channelName}</h2>
-            <div class="channel-content">${fileContent}</div>
+            <div class="channel-content">${html}</div>
           `;
           container.appendChild(wrapper);
         } catch (err) {
