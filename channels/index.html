@@ -6,23 +6,91 @@
   <title>RTC Channels</title>
   <link rel="stylesheet" href="/style.css">
   <style>
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      padding: 20px 0;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 2px solid #333;
+    }
+
+    main {
+      padding: 30px;
+    }
+
+    .description {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 40px;
+    }
+
     .channel {
-      margin: 40px auto;
+      margin: 60px auto;
       width: 90%;
       max-width: 1000px;
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 10px #0005;
+      background: linear-gradient(180deg, #141414, #0f0f0f);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease;
     }
+
+    .channel::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #4af, #00f, #4af);
+      background-size: 200% 100%;
+      animation: scrollLine 4s linear infinite;
+    }
+
+    @keyframes scrollLine {
+      from { background-position: 200% 0; }
+      to { background-position: -200% 0; }
+    }
+
     .channel h2 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      color: #4af;
+      text-shadow: 0 0 10px #4af5;
       border-bottom: 2px solid #333;
       padding-bottom: 10px;
-      margin-bottom: 15px;
-      color: #4af;
     }
+
     .channel-content {
       text-align: left;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .divider {
+      height: 4px;
+      width: 100%;
+      background: linear-gradient(90deg, #333, #4af, #333);
+      margin: 80px 0;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -36,12 +104,27 @@
     const channames = [
       "TRUSTED.html",
       "Update.html",
+      "admin chat.html",
+      "admininfo.html",
+      "adminupds.html",
+      "deleted.html",
+      "logs.html",
+      "managerchat.html",
+      "modlogs.html",
+      "private chat.html",
+      "quarantine.html",
+      "staff chat.html",
+      "staffupds.html",
+      "strikes.html",
+      "trusted info.html",
+      "verify logs.html",
     ];
 
     async function loadChannels() {
       const container = document.getElementById('channelsContainer');
 
-      for (const file of channames) {
+      for (let i = 0; i < channames.length; i++) {
+        const file = channames[i];
         try {
           const channelName = file.replace('.html', '');
           const res = await fetch(file);
@@ -50,12 +133,19 @@
           const wrapper = document.createElement('div');
           wrapper.className = 'channel';
           wrapper.innerHTML = `
-            <h2>${channelName}</h2>
+            <h2>📢 ${channelName}</h2>
             <div class="channel-content">${html}</div>
           `;
           container.appendChild(wrapper);
+
+          if (i < channames.length - 1) {
+            const divider = document.createElement('div');
+            divider.className = 'divider';
+            container.appendChild(divider);
+          }
+
         } catch (err) {
-          console.error(`Error loading ${file}:`, err);
+          console.error("\`Error loading \${file}:\`, err");
         }
       }
     }
