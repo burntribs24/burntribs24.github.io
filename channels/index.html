@@ -45,11 +45,27 @@
       overflow-y: auto;
       border-radius: 10px;
     }
+    #sidebar::-webkit-scrollbar {
+      width: 8px;
+    }
+    #sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #sidebar::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
     #sidebar h2 {
       text-align: center;
       color: #4af;
       margin-bottom: 10px;
       font-size: 1.2rem;
+    }
+    #hint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 12px;
     }
     .channel-btn {
       display: block;
@@ -133,9 +149,13 @@
   <header>RTC Channel Dashboard</header>
   <main>
     <div id="sidebar">
+      <div id="hint">Newer exports are more towards the top of the list</div>
+      <h2>Direct Messages</h2>
+      <div id="dmlist"></div>
       <h2>Channels</h2>
-      <div id="channelList"></div>
+      <div id="channellist"></div>
     </div>
+
     <div id="viewer">
       <h2>Select a Channel</h2>
       <div id="browser-controls">
@@ -154,6 +174,10 @@
   </main>
   <script>
     const channames = [
+      "trial chat.html",
+      "trial upds.html",
+      "event chat1.html",
+      "event chat2.html",
       "admin chat.html",
       "admin info.html",
       "admin upds.html",
@@ -171,15 +195,24 @@
       "private event chat.html",
       "closed quarantine ticket.html"
     ];
-    const listContainer = document.getElementById("channelList");
-    const frame = document.getElementById("channelFrame");
-    const viewerHeader = document.querySelector("#viewer h2");
 
-    function openChannel(name) {
+    const dmnames = [
+      "red.html",
+      "CatNature.html",
+      "0vr.html"
+    ];
+
+    const listcontainer = document.getElementById("channellist");
+    const dmcontainer = document.getElementById("dmlist");
+    const frame = document.getElementById("channelFrame");
+    const viewheader = document.querySelector("#viewer h2");
+
+    function opencha(name) {
       frame.src = name;
-      viewerHeader.textContent = `📢 ${name.replace(".html", "")}`;
+      viewheader.textContent = `📢 ${name.replace(".html", "").replace("dm/", "")}`;
       document.querySelectorAll(".channel-btn").forEach(b => b.classList.remove("active"));
-      const btn = Array.from(document.querySelectorAll(".channel-btn")).find(b => b.textContent === name.replace(".html", ""));
+      const cleanName = name.replace(".html", "").replace("dm/", "");
+      const btn = Array.from(document.querySelectorAll(".channel-btn")).find(b => b.textContent === cleanName);
       if (btn) btn.classList.add("active");
       localStorage.setItem("lastChannel", name);
     }
@@ -188,8 +221,16 @@
       const btn = document.createElement("div");
       btn.className = "channel-btn";
       btn.textContent = name.replace(".html", "");
-      btn.addEventListener("click", () => openChannel(name));
-      listContainer.appendChild(btn);
+      btn.addEventListener("click", () => opencha(name));
+      listcontainer.appendChild(btn);
+    });
+
+    dmnames.forEach(name => {
+      const btn = document.createElement("div");
+      btn.className = "channel-btn";
+      btn.textContent = name.replace(".html", "");
+      btn.addEventListener("click", () => opencha("dm/" + name));
+      dmcontainer.appendChild(btn);
     });
 
     document.getElementById("refreshBtn").addEventListener("click", () => {
@@ -206,10 +247,15 @@
     const initial = params.get("c");
     const saved = localStorage.getItem("lastChannel");
 
-    if (initial && channames.includes(initial + ".html")) {
-      openChannel(initial + ".html");
-    } else if (saved && channames.includes(saved)) {
-      openChannel(saved);
+    if (initial) {
+      const chanfile = initial + ".html";
+      if (channames.includes(chanfile)) {
+        opencha(chanfile);
+      } else if (dmnames.includes(chanfile)) {
+        opencha("dm/" + chanfile);
+      }
+    } else if (saved) {
+      opencha(saved);
     }
   </script>
 </body>
