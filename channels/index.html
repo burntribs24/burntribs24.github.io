@@ -3,161 +3,254 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>rtc channels</title>
-  <meta property="og:title" content="rtc channels" />
-  <meta property="og:url" content="https://burntribs24.github.io/channels/" />
-  <meta property="og:description" content="whats up chat this website contains a ton of leaked channels inside of RTC (roblox trolling central) including manager level ones.... i'd recommend you take a look......... k cool bye" />
-  <meta property="og:image" content="https://upswingpoker.com/wp-content/uploads/2019/08/poker-hands-royal-flush-in-texas-holdem-rankings-1200x675.jpg"/>
-  <meta property="og:type" content="website">
-  <link rel="stylesheet" href="/style.css">
+  <title>Discord - Roblox Trolling Central</title>
   <style>
-    body {
-      background-color: #0f0f0f;
-      color: #fff;
-      font-family: Arial, sans-serif;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #36393f;
+      color: #dcddde;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #server-list {
+      width: 72px;
+      background-color: #202225;
       display: flex;
       flex-direction: column;
-      height: 100vh;
-    }
-    header {
-      background-color: #1a1a1a;
-      padding: 15px;
-      font-size: 1.6rem;
-      font-weight: bold;
-      text-align: center;
-      border-bottom: 2px solid #333;
-    }
-    main {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-      padding: 10px;
-      box-sizing: border-box;
-      gap: 10px;
-    }
-    #sidebar {
-      width: 250px;
-      background: #141414;
-      border-right: 2px solid #333;
-      padding: 15px;
+      align-items: center;
+      padding: 12px 0;
+      gap: 8px;
       overflow-y: auto;
-      border-radius: 10px;
     }
-    #sidebar::-webkit-scrollbar {
+    #server-list::-webkit-scrollbar {
+      width: 0;
+    }
+    .server-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #36393f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-radius 0.2s, background-color 0.2s;
+      font-weight: 600;
+      font-size: 18px;
+      color: #fff;
+      position: relative;
+    }
+    .server-icon:hover {
+      border-radius: 35%;
+      background-color: #5865f2;
+    }
+    .server-icon.active {
+      border-radius: 35%;
+      background-color: #5865f2;
+    }
+    .server-icon.active::before {
+      content: '';
+      position: absolute;
+      left: -16px;
+      width: 8px;
+      height: 40px;
+      background-color: #fff;
+      border-radius: 0 4px 4px 0;
+    }
+    .server-icon.dm {
+      background-color: #202225;
+      font-size: 20px;
+    }
+    .server-icon.dm:hover {
+      background-color: #5865f2;
+      border-radius: 35%;
+    }
+    .server-separator {
+      width: 32px;
+      height: 2px;
+      background-color: #36393f;
+      margin: 4px 0;
+    }
+    #channel-sidebar {
+      width: 240px;
+      background-color: #2f3136;
+      display: flex;
+      flex-direction: column;
+    }
+    #server-header {
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #202225;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+    #server-header:hover {
+      background-color: #34373c;
+    }
+    #channels-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    #channels-container::-webkit-scrollbar {
       width: 8px;
     }
-    #sidebar::-webkit-scrollbar-track {
+    #channels-container::-webkit-scrollbar-track {
       background: transparent;
     }
-    #sidebar::-webkit-scrollbar-thumb {
-      background: #333;
+    #channels-container::-webkit-scrollbar-thumb {
+      background-color: #202225;
       border-radius: 4px;
     }
-    #sidebar h2 {
-      text-align: center;
-      color: #4af;
-      margin-bottom: 10px;
-      font-size: 1.2rem;
+    #channels-container::-webkit-scrollbar-thumb:hover {
+      background-color: #18191c;
     }
-    #hint {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-bottom: 12px;
+    .channel-section {
+      margin-bottom: 16px;
     }
-    .channel-btn {
-      display: block;
-      background: #1e1e1e;
-      color: #ddd;
-      padding: 8px 12px;
-      margin: 6px 0;
-      border-radius: 8px;
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #96989d;
+      text-transform: uppercase;
+      padding: 8px 8px 4px 8px;
+      letter-spacing: 0.5px;
+    }
+    .channel-item {
+      display: flex;
+      align-items: center;
+      padding: 6px 8px;
+      margin: 1px 0;
+      border-radius: 4px;
       cursor: pointer;
-      border: 1px solid #2a2a2a;
-      transition: background 0.2s, transform 0.2s;
-      font-size: 0.95rem;
+      color: #96989d;
+      transition: background-color 0.15s, color 0.15s;
     }
-    .channel-btn:hover {
-      background: #4af3;
-      color: #000;
-      transform: translateX(3px);
+    .channel-item:hover {
+      background-color: #3a3c43;
+      color: #dcddde;
     }
-    .channel-btn.active {
-      background: #4af;
-      color: #000;
-      font-weight: bold;
+    .channel-item.active {
+      background-color: #404249;
+      color: #fff;
     }
-    #viewer {
+    .channel-icon {
+      margin-right: 6px;
+      font-size: 20px;
+      color: #96989d;
+    }
+    .channel-item.active .channel-icon {
+      color: #fff;
+    }
+    .channel-name {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    #main-content {
       flex: 1;
-      background: #0f0f0f;
-      padding: 15px;
-      border-radius: 10px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      background-color: #36393f;
     }
-    #viewer h2 {
-      font-size: 1.4rem;
-      color: #4af;
-      text-align: center;
-      border-bottom: 2px solid #333;
-      padding-bottom: 8px;
-      margin-bottom: 8px;
+    #chat-header {
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #202225;
+      background-color: #36393f;
+    }
+    .chat-title-icon {
+      font-size: 24px;
+      color: #96989d;
+      margin-right: 8px;
+    }
+    .chat-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
     }
     #browser-controls {
+      margin-left: auto;
       display: flex;
-      align-items: center;
-      justify-content: center;
       gap: 8px;
-      margin-bottom: 8px;
     }
     .browser-btn {
-      background: #1e1e1e;
-      color: #4af;
-      border: 1px solid #2a2a2a;
-      padding: 6px 10px;
-      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #b9bbbe;
+      transition: background-color 0.15s, color 0.15s;
     }
     .browser-btn:hover {
-      background: #4af;
-      color: #000;
+      background-color: #3a3c43;
+      color: #dcddde;
     }
     .browser-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       fill: currentColor;
+    }
+    #message-area {
+      flex: 1;
+      overflow: hidden;
     }
     iframe {
       width: 100%;
-      flex: 1;
+      height: 100%;
       border: none;
-      background: #111;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+      background: #36393f;
     }
   </style>
 </head>
 <body>
-  <header>RTC Channel Dashboard</header>
-  <main>
-    <div id="sidebar">
-      <div id="hint">Newer exports are more towards the top of the list</div>
-      <h2>Direct Messages</h2>
-      <div id="dmlist"></div>
-      <h2>Channels</h2>
-      <div id="channellist"></div>
+  <div id="server-list">
+    <div class="server-icon" id="dmIcon" title="Direct Messages">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.486 2 2 6.486 2 12c0 1.79.48 3.47 1.32 4.93l-1.11 3.3a1 1 0 001.26 1.26l3.3-1.11A9.957 9.957 0 0012 22c5.514 0 10-4.486 10-10S17.514 2 12 2z"/>
+      </svg>
     </div>
+    <div class="server-separator"></div>
+    <div class="server-icon active" id="rtcIcon" title="Roblox Trolling Central">RTC</div>
+  </div>
 
-    <div id="viewer">
-      <h2>Select a Channel</h2>
+  <div id="channel-sidebar">
+    <div id="server-header">
+      <span>Roblox Trolling Central</span>
+      <span style="font-size: 12px;">▼</span>
+    </div>
+    <div id="channels-container">
+      <div class="channel-section" id="server-channels">
+        <div class="section-title">Text Channels</div>
+        <div id="channel-list"></div>
+      </div>
+      <div class="channel-section" id="dm-section" style="display: none;">
+        <div class="section-title">Direct Messages</div>
+        <div id="dm-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <div id="chat-header">
+      <span class="chat-title-icon">#</span>
+      <span class="chat-title">Select a channel</span>
       <div id="browser-controls">
         <button class="browser-btn" id="backBtn" title="Back">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
@@ -169,68 +262,113 @@
           <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.95 7.95 0 0012 4V1l-4 4 4 4V5c3.31 0 6 2.69 6 6a6 6 0 01-6 6 6 6 0 01-5.65-4H4a8 8 0 007.65 8 8 8 0 007.65-8c0-2.11-.82-4.03-2.35-5.65z"/></svg>
         </button>
       </div>
+    </div>
+    <div id="message-area">
       <iframe id="channelFrame"></iframe>
     </div>
-  </main>
+  </div>
+
   <script>
-    const channames = [
-      "trial chat.html",
-      "trial upds.html",
-      "event chat1.html",
-      "event chat2.html",
-      "admin chat.html",
-      "admin info.html",
-      "admin upds.html",
-      "staff chat.html",
-      "staff upds.html",
-      "staff strikes.html",
-      "manager chat.html",
-      "manager cmds.html",
-      "modlogs.html",
-      "trusted chat.html",
-      "trusted upds.html",
-      "deleted msgs.html",
-      "message logs.html",
-      "verify logs.html",
-      "private event chat.html",
-      "closed quarantine ticket.html"
+    const channels = [
+      "trial chat",
+      "trial upds",
+      "event chat1",
+      "event chat2",
+      "admin chat",
+      "admin info",
+      "admin upds",
+      "staff chat",
+      "staff upds",
+      "staff strikes",
+      "manager chat",
+      "manager cmds",
+      "modlogs",
+      "trusted chat",
+      "trusted upds",
+      "deleted msgs",
+      "message logs",
+      "verify logs",
+      "private event chat",
+      "closed quarantine ticket"
     ];
 
-    const dmnames = [
-      "red.html",
-      "CatNature.html",
-      "0vr.html"
+    const dms = [
+      "red",
+      "CatNature",
+      "0vr"
     ];
 
-    const listcontainer = document.getElementById("channellist");
-    const dmcontainer = document.getElementById("dmlist");
+    const channelList = document.getElementById("channel-list");
+    const dmList = document.getElementById("dm-list");
     const frame = document.getElementById("channelFrame");
-    const viewheader = document.querySelector("#viewer h2");
+    const chatTitle = document.querySelector(".chat-title");
+    const chatTitleIcon = document.querySelector(".chat-title-icon");
+    const serverHeader = document.getElementById("server-header");
+    const serverChannels = document.getElementById("server-channels");
+    const dmSection = document.getElementById("dm-section");
+    const rtcIcon = document.getElementById("rtcIcon");
+    const dmIcon = document.getElementById("dmIcon");
 
-    function opencha(name) {
-      frame.src = name;
-      viewheader.textContent = `📢 ${name.replace(".html", "").replace("dm/", "")}`;
-      document.querySelectorAll(".channel-btn").forEach(b => b.classList.remove("active"));
-      const cleanName = name.replace(".html", "").replace("dm/", "");
-      const btn = Array.from(document.querySelectorAll(".channel-btn")).find(b => b.textContent === cleanName);
-      if (btn) btn.classList.add("active");
-      localStorage.setItem("lastChannel", name);
+    let currentView = "server";
+
+    function switchView(view) {
+      currentView = view;
+      if (view === "server") {
+        serverHeader.querySelector("span").textContent = "Roblox Trolling Central";
+        serverChannels.style.display = "block";
+        dmSection.style.display = "none";
+        rtcIcon.classList.add("active");
+        dmIcon.classList.remove("active");
+      } else {
+        serverHeader.querySelector("span").textContent = "Direct Messages";
+        serverChannels.style.display = "none";
+        dmSection.style.display = "block";
+        rtcIcon.classList.remove("active");
+        dmIcon.classList.add("active");
+      }
     }
 
-    channames.forEach(name => {
-      const btn = document.createElement("div");
-      btn.className = "channel-btn";
-      btn.textContent = name.replace(".html", "");
-      btn.addEventListener("click", () => opencha(name));
-      listcontainer.appendChild(btn);
+    rtcIcon.addEventListener("click", () => switchView("server"));
+    dmIcon.addEventListener("click", () => switchView("dm"));
+
+    function openChannel(name, isDM = false) {
+      const filename = isDM ? `dm/${name}.html` : `${name}.html`;
+      frame.src = filename;
+      chatTitle.textContent = name;
+      chatTitleIcon.textContent = isDM ? "@" : "#";
+      
+      document.querySelectorAll(".channel-item").forEach(item => item.classList.remove("active"));
+      const activeItem = Array.from(document.querySelectorAll(".channel-item"))
+        .find(item => item.dataset.name === name && item.dataset.isDm === String(isDM));
+      if (activeItem) activeItem.classList.add("active");
+      
+      localStorage.setItem("lastChannel", JSON.stringify({ name, isDM }));
+    }
+
+    channels.forEach(name => {
+      const item = document.createElement("div");
+      item.className = "channel-item";
+      item.dataset.name = name;
+      item.dataset.isDm = "false";
+      item.innerHTML = `<span class="channel-icon">#</span><span class="channel-name">${name}</span>`;
+      item.addEventListener("click", () => {
+        switchView("server");
+        openChannel(name, false);
+      });
+      channelList.appendChild(item);
     });
 
-    dmnames.forEach(name => {
-      const btn = document.createElement("div");
-      btn.className = "channel-btn";
-      btn.textContent = name.replace(".html", "");
-      btn.addEventListener("click", () => opencha("dm/" + name));
-      dmcontainer.appendChild(btn);
+    dms.forEach(name => {
+      const item = document.createElement("div");
+      item.className = "channel-item";
+      item.dataset.name = name;
+      item.dataset.isDm = "true";
+      item.innerHTML = `<span class="channel-icon">@</span><span class="channel-name">${name}</span>`;
+      item.addEventListener("click", () => {
+        switchView("dm");
+        openChannel(name, true);
+      });
+      dmList.appendChild(item);
     });
 
     document.getElementById("refreshBtn").addEventListener("click", () => {
@@ -248,14 +386,16 @@
     const saved = localStorage.getItem("lastChannel");
 
     if (initial) {
-      const chanfile = initial + ".html";
-      if (channames.includes(chanfile)) {
-        opencha(chanfile);
-      } else if (dmnames.includes(chanfile)) {
-        opencha("dm/" + chanfile);
-      }
+      const isDM = dms.includes(initial);
+      if (isDM) switchView("dm");
+      openChannel(initial, isDM);
     } else if (saved) {
-      opencha(saved);
+      try {
+        const { name, isDM } = JSON.parse(saved);
+        if (isDM) switchView("dm");
+        openChannel(name, isDM);
+      } catch (e) {
+      }
     }
   </script>
 </body>
